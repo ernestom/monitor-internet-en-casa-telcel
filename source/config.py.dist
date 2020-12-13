@@ -1,0 +1,14 @@
+# Local selenium driver
+SELENIUM_URL = "http://127.0.0.1:4444/wd/hub"
+SELENIUM_HEADLESS = True
+
+# Telcel Router
+ROUTER_HOST = "http://192.168.8.1"
+ROUTER_PASSWORD = "XXXXXXXXXXXXX"
+
+NEW_RELIC_ACCOUNT_ID = "1234567"
+# New Relic API Key management: https://insights.newrelic.com/accounts/<ACCOUNT_ID>/manage/api_keys
+NEW_RELIC_INSERT_KEY = "NRII-XXXXXXXXXXXXXXXXXXXXXXX"
+NEW_RELIC_INSIGHTS_API_URL = (
+    f"https://insights-collector.newrelic.com/v1/accounts/{NEW_RELIC_ACCOUNT_ID}/events"
+)
