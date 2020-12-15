@@ -74,9 +74,24 @@ El monitor de consumo [monitor.py](./source/monitor.py) hace lo siguiente:
 Los datos de consumo se guardan en New Relic One como un custom event llamado `MonthlyUsage`.
 Puedes verlo con las siguiente consultas NRQL desde el [Query Builder](https://docs.newrelic.com/docs/query-your-data/explore-query-data/query-builder/introduction-query-builder):
 
+
+#### Uso total
+Al día de hoy, comparado contra ayer:
 ```SQL
-FROM MonthlyUsage SELECT latest(gigabytes_used) SINCE 3 days ago
-FROM MonthlyUsage SELECT rate(latest(gigabytes_used), 1 hour) TIMESERIES SINCE 3 days ago
+FROM MonthlyUsage SELECT latest(gigabytes_used) as 'GBs, hoy vs ayer' since 1 day ago COMPARE WITH 1 day ago
+```
+#### Predicción de uso
+A partir de hoy, para dentro de 1 hasta 4 semanas en el futuro:
+```SQL
+FROM MonthlyUsage SELECT round(predictlinear(gigabytes_used, 1 week)) as 'GBs, en +1 semana', round(predictlinear(gigabytes_used, 2 weeks)) as 'GBs, en +2 semanas', round(predictlinear(gigabytes_used, 3 weeks)) as 'GBs, en +3 semanas', round(predictlinear(gigabytes_used, 4 weeks)) as 'GBs, en +4 semanas' SINCE 1 week ago
+```
+#### Uso en los últimos 3 días
+```SQL
+FROM MonthlyUsage SELECT latest(gigabytes_used) TIMESERIES SINCE 3 days ago
+```
+#### Uso máximo de los últimos 5 días
+```SQL
+FROM MonthlyUsage SELECT latest(gigabytes_used) as 'GBs' SINCE 5 days ago FACET dateOf(timestamp)
 ```
 
 ![Query Builder](docs/nr-tdp-query-builder.png)
